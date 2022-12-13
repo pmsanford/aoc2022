@@ -1,5 +1,8 @@
-use std::{fs::File, io::{BufReader, BufRead}};
 use anyhow::Result;
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
 fn main() -> Result<()> {
     let file = File::open("input.txt")?;
@@ -26,7 +29,7 @@ fn main() -> Result<()> {
         max = current;
     }
 
-    println!("Elf with the most calories has {}", max);
+    println!("Elf with the most calories has {max}");
 
     Ok(())
 }

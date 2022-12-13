@@ -1,8 +1,12 @@
-use std::{fs::File, io::{BufReader, BufRead}, env};
 use anyhow::Result;
+use std::{
+    env,
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
 pub struct Input {
-    file: File
+    file: File,
 }
 
 impl Input {
@@ -17,9 +21,7 @@ impl Input {
     pub fn from_file(filename: &str) -> Result<Self> {
         let file = File::open(filename)?;
 
-        Ok(Self {
-            file
-        })
+        Ok(Self { file })
     }
 
     pub fn into_lines(self) -> Result<Vec<String>> {

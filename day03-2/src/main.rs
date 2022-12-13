@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
-use util::Input;
 use anyhow::Result;
+use util::Input;
 
 fn priority(item: &char) -> u8 {
     let mut priority = *item as u8;
@@ -32,8 +32,8 @@ fn main() -> Result<()> {
 
         total += priority as u32;
     }
-    
-    println!("Priority total is {}", total);
+
+    println!("Priority total is {total}");
 
     Ok(())
 }

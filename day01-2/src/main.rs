@@ -1,5 +1,8 @@
-use std::{fs::File, io::{BufReader, BufRead}};
 use anyhow::Result;
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
 fn main() -> Result<()> {
     let file = File::open("input.txt")?;
@@ -27,7 +30,7 @@ fn main() -> Result<()> {
 
     let cals: u32 = elves.into_iter().take(3).sum();
 
-    println!("Top three elves have {} calories", cals);
+    println!("Top three elves have {cals} calories");
 
     Ok(())
 }

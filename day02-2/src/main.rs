@@ -1,17 +1,17 @@
+use anyhow::{anyhow, Result};
 use util::Input;
-use anyhow::{Result, anyhow};
 
 #[derive(Clone, Copy)]
 enum Throw {
     Rock,
     Paper,
-    Scissors
+    Scissors,
 }
 
 enum RoundResult {
     Win,
     Draw,
-    Lose
+    Lose,
 }
 
 impl TryFrom<&str> for RoundResult {
@@ -26,7 +26,7 @@ impl TryFrom<&str> for RoundResult {
             'X' => Ok(RoundResult::Lose),
             'Y' => Ok(RoundResult::Draw),
             'Z' => Ok(RoundResult::Win),
-            _ => Err(anyhow!("Unknown result"))
+            _ => Err(anyhow!("Unknown result")),
         }
     }
 }
@@ -36,7 +36,7 @@ impl Throw {
         match self {
             Throw::Rock => 1,
             Throw::Paper => 2,
-            Throw::Scissors => 3
+            Throw::Scissors => 3,
         }
     }
 
@@ -50,7 +50,7 @@ impl Throw {
             (Throw::Paper, Throw::Scissors) => RoundResult::Lose,
             (Throw::Scissors, Throw::Rock) => RoundResult::Lose,
             (Throw::Scissors, Throw::Paper) => RoundResult::Win,
-            (Throw::Scissors, Throw::Scissors) => RoundResult::Draw
+            (Throw::Scissors, Throw::Scissors) => RoundResult::Draw,
         }
     }
 
@@ -62,7 +62,7 @@ impl Throw {
         match self {
             Throw::Rock => Throw::Scissors,
             Throw::Paper => Throw::Rock,
-            Throw::Scissors => Throw::Paper
+            Throw::Scissors => Throw::Paper,
         }
     }
 
@@ -70,7 +70,7 @@ impl Throw {
         match self {
             Throw::Rock => Throw::Paper,
             Throw::Paper => Throw::Scissors,
-            Throw::Scissors => Throw::Rock
+            Throw::Scissors => Throw::Rock,
         }
     }
 }
@@ -87,14 +87,14 @@ impl TryFrom<&str> for Throw {
             'A' | 'X' => Ok(Self::Rock),
             'B' | 'Y' => Ok(Self::Paper),
             'C' | 'Z' => Ok(Self::Scissors),
-            _ => Err(anyhow!("Unknown throw"))
+            _ => Err(anyhow!("Unknown throw")),
         }
     }
 }
 
 fn main() -> Result<()> {
     let input = Input::new()?.into_lines()?;
-    
+
     let mut total = 0usize;
 
     for round in input {
@@ -104,19 +104,19 @@ fn main() -> Result<()> {
         let me = match result {
             RoundResult::Win => opp.loses_to(),
             RoundResult::Draw => opp.draws(),
-            RoundResult::Lose => opp.beats()
+            RoundResult::Lose => opp.beats(),
         };
 
         let round_score = match me.against(&opp) {
             RoundResult::Win => 6,
             RoundResult::Draw => 3,
-            RoundResult::Lose => 0
+            RoundResult::Lose => 0,
         } + me.throw_score();
 
         total += round_score;
     }
 
-    println!("Total score: {}", total);
+    println!("Total score: {total}");
 
     Ok(())
 }
