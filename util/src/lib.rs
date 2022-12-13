@@ -1,4 +1,4 @@
-use std::{fs::File, io::{BufReader, BufRead}};
+use std::{fs::File, io::{BufReader, BufRead}, env};
 use anyhow::Result;
 
 pub struct Input {
@@ -7,7 +7,11 @@ pub struct Input {
 
 impl Input {
     pub fn new() -> Result<Self> {
-        Input::from_file("input.txt")
+        if env::args().any(|arg| arg == "--test") {
+            Input::from_file("test.txt")
+        } else {
+            Input::from_file("input.txt")
+        }
     }
 
     pub fn from_file(filename: &str) -> Result<Self> {
