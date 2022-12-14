@@ -22,13 +22,14 @@ fn main() -> Result<()> {
         if !line.is_empty() {
             let ((a, b), (x, y)) = parse_pairs(&line);
 
-            if (a >= x && a <= y) || (b >= x && b <= y) || (x >= a && x <= b) || (y >= a && y <= b) {
+            if (a >= x && a <= y) || (b >= x && b <= y) || (x >= a && x <= b) || (y >= a && y <= b)
+            {
                 count += 1;
             }
         }
     }
 
-    println!("Container count: {}", count);
+    println!("Container count: {count}");
 
     Ok(())
 }

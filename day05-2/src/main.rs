@@ -7,8 +7,8 @@ fn print_stacks(stacks: &Vec<Vec<char>>) {
     let count = stacks.len();
 
     for i in (0..height).rev() {
-        for j in 0..count {
-            if let Some(v) = stacks[j].get(i) {
+        for stack in stacks.iter().take(count) {
+            if let Some(v) = stack.get(i) {
                 print!(r"[{v}] ");
             } else {
                 print!("    ");
@@ -36,11 +36,11 @@ fn main() -> Result<()> {
             instructions_start = no + 2;
             break;
         }
-        for stack in 0..stack_count {
-            let idx = 1 + stack * 4;
+        for (stack_num, stack) in stacks.iter_mut().enumerate().take(stack_count) {
+            let idx = 1 + stack_num * 4;
             let c = chars[idx];
             if c != ' ' {
-                stacks[stack].push(c);
+                stack.push(c);
             }
         }
     }
@@ -52,7 +52,7 @@ fn main() -> Result<()> {
     print_stacks(&stacks);
 
     for inst in lines.iter().skip(instructions_start) {
-        println!("{}", inst);
+        println!("{inst}");
         let re = Regex::new("move ([0-9]+) from ([0-9]+) to ([0-9]+)")?;
         let c = re.captures(inst).unwrap();
         let count = c.get(1).unwrap().as_str().parse::<usize>()?;

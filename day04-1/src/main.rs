@@ -28,7 +28,7 @@ fn main() -> Result<()> {
         }
     }
 
-    println!("Container count: {}", count);
+    println!("Container count: {count}");
 
     Ok(())
 }
