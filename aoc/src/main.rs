@@ -5,7 +5,7 @@ use std::{
 
 use anyhow::{bail, Result};
 use duct::cmd;
-use git2::{Repository, RepositoryState};
+use git2::{Repository, RepositoryState, Status};
 use toml_edit::{Document, Item, Value};
 mod day;
 use day::Day;
@@ -17,7 +17,13 @@ fn check_repo_dirty(repo: &Repository) -> Result<()> {
         bail!("Repo state isn't clean");
     }
 
-    if !repo.statuses(None)?.is_empty() {
+    if repo
+        .statuses(None)?
+        .iter()
+        .filter(|status| status.status() != Status::IGNORED)
+        .count()
+        > 0
+    {
         bail!("Repo has uncommitted changes");
     }
 
