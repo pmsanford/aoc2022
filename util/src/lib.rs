@@ -2,7 +2,7 @@ use anyhow::Result;
 use std::{
     env,
     fs::File,
-    io::{BufRead, BufReader},
+    io::{BufRead, BufReader, Read},
 };
 
 pub struct Input {
@@ -30,5 +30,13 @@ impl Input {
         let lines: Vec<String> = reader.lines().collect::<Result<_, _>>()?;
 
         Ok(lines)
+    }
+
+    pub fn into_string(mut self) -> Result<String> {
+        let mut s = String::new();
+        self.file.read_to_string(&mut s)?;
+        let s = s.trim().to_owned();
+
+        Ok(s)
     }
 }
