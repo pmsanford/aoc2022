@@ -1,16 +1,16 @@
 [workspace]
 members = [
-"day01-1",
-"day01-2",
-"day02-1",
-"day02-2",
-"day03-1",
-"day03-2",
-"day04-1",
-"day04-2",
-"day05-1",
-"day05-2",
-"day06-1",
-"day06-2",
-"util"
-]
+  "aoc"
+, "day01-1"
+, "day01-2"
+, "day02-1"
+, "day02-2"
+, "day03-1"
+, "day03-2"
+, "day04-1"
+, "day04-2"
+, "day05-1"
+, "day05-2"
+, "day06-1"
+, "day06-2"
+, "util"]
