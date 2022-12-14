@@ -1,0 +1,8 @@
+use anyhow::Result;
+use util::Input;
+
+fn main() -> Result<()> {
+    let input = Input::new()?;
+
+    Ok(())
+}

@@ -44,6 +44,8 @@ fn find_latest_day(path: &Path) -> Result<Option<Day>> {
     Ok(max)
 }
 
+const MAIN_TEMPLATE: &str = include_str!("template.txt");
+
 fn main() -> Result<()> {
     let repo = Repository::open_from_env()?;
     let repo_root = PathBuf::from(repo.workdir().unwrap());
@@ -76,6 +78,12 @@ fn main() -> Result<()> {
 
         cmd!("cargo", "add", "anyhow").run()?;
         cmd!("cargo", "add", "--path", "../util").run()?;
+
+        let mut new_main = new_day;
+        new_main.push("src");
+        new_main.push("main.rs");
+
+        fs::write(&new_main, MAIN_TEMPLATE)?;
     } else {
         cmd!("cp", "-R", latest.unwrap().to_string(), next.to_string()).run()?;
 
