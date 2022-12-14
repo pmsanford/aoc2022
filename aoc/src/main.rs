@@ -57,7 +57,7 @@ fn main() -> Result<()> {
 
     let workspace_members = workspace_members.as_array_mut().unwrap();
 
-    let latest = find_latest_day(Path::new("."))?;
+    let latest = find_latest_day(&repo_root)?;
     let next = latest.as_ref().map(Day::next_day).unwrap_or_default();
 
     env::set_current_dir(&repo_root)?;
