@@ -82,13 +82,13 @@ fn main() -> Result<()> {
         match line.as_str() {
             s if s.starts_with("$ cd ") => {
                 let dirname = s[5..].to_owned();
-                println!("Changing to dir '{}'", dirname);
+                println!("Changing to dir '{dirname}'");
                 fs.cd(dirname)?;
             }
             s if s == "$ ls" => {}
             s if s.starts_with("dir ") => {
                 let dirname = s[4..].to_owned();
-                println!("Adding dir '{}'", dirname);
+                println!("Adding dir '{dirname}'");
                 fs.add_dir(dirname);
             }
             s if s
@@ -99,7 +99,7 @@ fn main() -> Result<()> {
             {
                 let (size, name) = s.split_once(' ').unwrap();
                 let size: usize = size.parse()?;
-                println!("Adding file '{}' with size {}", name, size);
+                println!("Adding file '{name}' with size {size}");
                 fs.add_file(name.to_owned(), size);
             }
             s if s.trim() == "" => {}

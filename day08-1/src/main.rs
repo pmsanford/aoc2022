@@ -14,7 +14,7 @@ fn print_vismap(rows: &Vec<Vec<Tree>>) {
     for row in rows {
         for tree in row {
             let c = if tree.visible { "V" } else { "H" };
-            print!("{}", c);
+            print!("{c}");
         }
         println!();
     }
@@ -78,13 +78,13 @@ fn main() -> Result<()> {
         }
     }
 
-    println!("{:#?}", rows);
+    println!("{rows:#?}");
 
     let visible = rows.iter().flatten().filter(|tree| tree.visible).count();
 
     print_vismap(&rows);
 
-    println!("Visible trees: {}", visible);
+    println!("Visible trees: {visible}");
 
     Ok(())
 }

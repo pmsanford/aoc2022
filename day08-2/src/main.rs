@@ -10,11 +10,12 @@ struct Tree {
     visible: bool,
 }
 
+#[allow(dead_code)]
 fn print_vismap(rows: &Vec<Vec<Tree>>) {
     for row in rows {
         for tree in row {
             let c = if tree.visible { "V" } else { "H" };
-            print!("{}", c);
+            print!("{c}");
         }
         println!();
     }
@@ -74,12 +75,12 @@ fn main() -> Result<()> {
         for y in 0..rows.len() {
             max_score = count_visible(&rows, (x, y))
                 .into_iter()
-                .fold(1, |acc, x| acc * x)
+                .product::<usize>()
                 .max(max_score);
         }
     }
 
-    println!("Max visibility score: {}", max_score);
+    println!("Max visibility score: {max_score}");
 
     Ok(())
 }
