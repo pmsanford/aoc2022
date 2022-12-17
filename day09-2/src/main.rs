@@ -54,6 +54,8 @@ impl State {
             let delta = (head.0 - tail.0, head.1 - tail.1);
             // Touching
             if delta.0.abs() <= 1 && delta.1.abs() <= 1 {
+                // This means this segment didn't move, so no later segments
+                // will need to move.
                 return;
             }
             // Same column, vertical move necessary
@@ -80,7 +82,7 @@ fn main() -> Result<()> {
         .into_iter()
         .map(parse_move)
         .collect::<Result<Vec<_>>>()?;
-    let mut state = State::new(2);
+    let mut state = State::new(10);
     for (dir, count) in input {
         for _ in 0..count {
             state.do_move(dir);
