@@ -1,0 +1,4 @@
+digit = { '0'..'9' }
+number = { digit+ }
+WHITESPACE = _{ " " }
+list = { "[" ~ ((number | list) ~ ","?)* ~ "]" }
