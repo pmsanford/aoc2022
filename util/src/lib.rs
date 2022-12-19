@@ -5,6 +5,8 @@ use std::{
     io::{BufRead, BufReader, Read},
 };
 
+pub mod linked_grid;
+
 pub struct Input {
     file: File,
 }
