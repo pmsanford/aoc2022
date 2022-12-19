@@ -1,17 +1,7 @@
 use std::fmt::Display;
 
-use anyhow::Result;
-use list::{ListParser, Rule};
-use pest::{iterators::Pair, Parser};
+use anyhow::{bail, Result};
 use util::Input;
-
-mod list {
-    use pest_derive::Parser;
-
-    #[derive(Parser)]
-    #[grammar = "list.pest"]
-    pub struct ListParser;
-}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum Packet {
@@ -69,19 +59,44 @@ impl Ord for Packet {
     }
 }
 
-fn parse_list(outer: Pair<Rule>) -> Result<Packet> {
-    let mut packets = vec![];
+fn number(i: &str) -> nom::IResult<&str, Packet> {
+    let (rest, number) =
+        nom::bytes::complete::take_while1(|c: char| nom::character::is_digit(c as u8))(i)?;
 
-    for pair in outer.into_inner() {
-        match pair.as_rule() {
-            Rule::number => packets.push(Packet::Number(pair.as_str().parse()?)),
-            Rule::WHITESPACE => {}
-            Rule::digit => unreachable!(),
-            Rule::list => packets.push(parse_list(pair)?),
+    Ok((rest, Packet::Number(number.parse().unwrap())))
+}
+
+fn list_item(i: &str) -> nom::IResult<&str, Packet> {
+    nom::branch::alt((number, list))(i)
+}
+
+fn inside_list(i: &str) -> nom::IResult<&str, Vec<Packet>> {
+    nom::multi::separated_list0(nom::bytes::complete::tag(","), list_item)(i)
+}
+
+fn list(i: &str) -> nom::IResult<&str, Packet> {
+    let (rest, parsed) = nom::sequence::delimited(
+        nom::bytes::complete::tag("["),
+        inside_list,
+        nom::bytes::complete::tag("]"),
+    )(i)?;
+
+    Ok((rest, Packet::List(parsed)))
+}
+
+fn parse_line(i: &str) -> Result<Packet> {
+    match list(i) {
+        Ok((rest, parsed)) => {
+            if !rest.is_empty() {
+                bail!("Didn't parse whole line");
+            }
+
+            Ok(parsed)
+        }
+        Err(e) => {
+            bail!("Failed to parse: {}", e);
         }
     }
-
-    Ok(Packet::List(packets))
 }
 
 fn main() -> Result<()> {
@@ -91,15 +106,11 @@ fn main() -> Result<()> {
         .filter(|s| !s.is_empty())
         .collect::<Vec<_>>();
 
-    let mut packets = vec![];
+    let mut packets = input
+        .iter()
+        .map(|p| parse_line(p))
+        .collect::<Result<Vec<_>>>()?;
 
-    for line in input {
-        let parsed = ListParser::parse(Rule::list, &line)?;
-
-        let outer = parsed.into_iter().next().unwrap();
-
-        packets.push(parse_list(outer)?);
-    }
     let one = Packet::List(vec![Packet::List(vec![Packet::Number(2)])]);
     packets.push(one.clone());
     let two = Packet::List(vec![Packet::List(vec![Packet::Number(6)])]);
