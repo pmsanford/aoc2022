@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.66"
+util = { version = "0.1.0", path = "../util" }

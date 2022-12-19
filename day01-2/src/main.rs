@@ -1,19 +1,11 @@
 use anyhow::Result;
-use std::{
-    fs::File,
-    io::{BufRead, BufReader},
-};
+use util::Input;
 
 fn main() -> Result<()> {
-    let file = File::open("input.txt")?;
-    let bufread = BufReader::new(file);
-
     let mut elves = vec![];
     let mut current = 0u32;
 
-    for line in bufread.lines() {
-        let line = line?;
-
+    for line in Input::new().into_lines()? {
         if line.is_empty() {
             if current > 0 {
                 elves.push(current);

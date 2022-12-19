@@ -52,7 +52,7 @@ fn count_visible_to(rows: &Vec<Vec<Tree>>, start: (usize, usize), step: (isize, 
 }
 
 fn main() -> Result<()> {
-    let input = Input::new()?.into_lines()?;
+    let input = Input::new().into_lines()?;
     let rows = input
         .into_iter()
         .enumerate()

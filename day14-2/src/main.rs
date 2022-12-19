@@ -38,7 +38,7 @@ pub enum Contents {
 }
 
 fn main() -> Result<()> {
-    let input = Input::new()?.into_lines()?;
+    let input = Input::new().into_lines()?;
 
     let mut pairs = input
         .iter()

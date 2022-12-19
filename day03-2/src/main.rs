@@ -16,7 +16,7 @@ fn priority(item: &char) -> u8 {
 }
 
 fn main() -> Result<()> {
-    let input = Input::new()?.into_lines()?;
+    let input = Input::new().into_lines()?;
 
     let mut total = 0u32;
 

@@ -23,7 +23,7 @@ fn print_stacks(stacks: &Vec<Vec<char>>) {
 }
 
 fn main() -> Result<()> {
-    let lines = Input::new()?.into_lines()?;
+    let lines = Input::new().into_lines()?;
 
     let stack_count = (lines[0].len() + 1) / 4;
     let mut stacks = vec![vec![]; stack_count];

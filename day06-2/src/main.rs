@@ -4,7 +4,7 @@ use anyhow::Result;
 use util::Input;
 
 fn main() -> Result<()> {
-    let input = Input::new()?.into_string()?.chars().collect::<Vec<_>>();
+    let input = Input::new().into_string()?.chars().collect::<Vec<_>>();
 
     let indicator_len = 14;
 

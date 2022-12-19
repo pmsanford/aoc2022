@@ -1,18 +1,20 @@
 use anyhow::Result;
-use std::{
-    env,
-    fs::File,
-    io::{BufRead, BufReader, Read},
-};
+use std::{env, fs};
 
 pub mod linked_grid;
 
 pub struct Input {
-    file: File,
+    filename: String,
+}
+
+impl Default for Input {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl Input {
-    pub fn new() -> Result<Self> {
+    pub fn new() -> Self {
         if env::args().any(|arg| arg == "--test") {
             Input::from_file("test.txt")
         } else {
@@ -20,25 +22,20 @@ impl Input {
         }
     }
 
-    pub fn from_file(filename: &str) -> Result<Self> {
-        let file = File::open(filename)?;
-
-        Ok(Self { file })
+    pub fn from_file(filename: &str) -> Self {
+        Self {
+            filename: filename.to_owned(),
+        }
     }
 
     pub fn into_lines(self) -> Result<Vec<String>> {
-        let reader = BufReader::new(self.file);
-
-        let lines: Vec<String> = reader.lines().collect::<Result<_, _>>()?;
-
-        Ok(lines)
+        Ok(fs::read_to_string(self.filename)?
+            .lines()
+            .map(str::to_owned)
+            .collect())
     }
 
-    pub fn into_string(mut self) -> Result<String> {
-        let mut s = String::new();
-        self.file.read_to_string(&mut s)?;
-        let s = s.trim().to_owned();
-
-        Ok(s)
+    pub fn into_string(self) -> Result<String> {
+        Ok(fs::read_to_string(self.filename)?)
     }
 }

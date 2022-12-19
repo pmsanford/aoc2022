@@ -21,7 +21,7 @@ fn print_vismap(rows: &Vec<Vec<Tree>>) {
 }
 
 fn main() -> Result<()> {
-    let input = Input::new()?.into_lines()?;
+    let input = Input::new().into_lines()?;
     let mut rows = input
         .into_iter()
         .enumerate()

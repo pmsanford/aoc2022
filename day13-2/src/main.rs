@@ -100,7 +100,7 @@ fn parse_line(i: &str) -> Result<Packet> {
 }
 
 fn main() -> Result<()> {
-    let input = Input::new()?
+    let input = Input::new()
         .into_lines()?
         .drain(..)
         .filter(|s| !s.is_empty())

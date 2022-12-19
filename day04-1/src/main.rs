@@ -14,7 +14,7 @@ fn parse_pairs(line: &str) -> ((u32, u32), (u32, u32)) {
 }
 
 fn main() -> Result<()> {
-    let input = Input::new()?.into_lines()?;
+    let input = Input::new().into_lines()?;
 
     let mut count = 0u32;
 

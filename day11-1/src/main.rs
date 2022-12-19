@@ -136,7 +136,7 @@ fn parse_monkey(lines: &[String]) -> Result<Monkey> {
 }
 
 fn main() -> Result<()> {
-    let input = Input::new()?.into_lines()?;
+    let input = Input::new().into_lines()?;
 
     let mut monkeys = HashMap::new();
     for lines in input.chunks(7) {

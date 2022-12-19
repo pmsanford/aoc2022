@@ -150,7 +150,7 @@ fn print_inspections(monkeys: &HashMap<usize, Monkey>, round: usize) {
 }
 
 fn main() -> Result<()> {
-    let input = Input::new()?.into_lines()?;
+    let input = Input::new().into_lines()?;
 
     let mut monkeys = HashMap::new();
     for lines in input.chunks(7) {

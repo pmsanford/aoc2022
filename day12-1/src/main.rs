@@ -71,7 +71,7 @@ fn try_link(
 }
 
 fn main() -> Result<()> {
-    let input = Input::new()?.into_lines()?;
+    let input = Input::new().into_lines()?;
     let grid = input
         .into_iter()
         .map(|line| line.chars().collect::<Vec<_>>())

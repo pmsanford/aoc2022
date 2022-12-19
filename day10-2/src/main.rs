@@ -92,7 +92,7 @@ impl Screen {
 }
 
 fn main() -> Result<()> {
-    let input = Input::new()?
+    let input = Input::new()
         .into_lines()?
         .into_iter()
         .map(Instruction::from)
