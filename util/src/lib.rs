@@ -1,8 +1,8 @@
 use anyhow::Result;
 use std::{env, fs};
 
-pub mod linked_grid;
 pub mod grid;
+pub mod linked_grid;
 
 pub struct Input {
     filename: String,
