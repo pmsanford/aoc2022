@@ -1,0 +1,13 @@
+[package]
+name = "day15-2"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.68"
+geo = "0.23.1"
+intersect2d = "0.4.2"
+nom = "7.1.1"
+util = { version = "0.1.0", path = "../util" }
