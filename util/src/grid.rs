@@ -66,10 +66,10 @@ where
         let (pad, lower_x, upper_x) = clamp_x_axis(window);
         let x_num_len = lower_x.to_string().len().max(upper_x.to_string().len());
         let y_num_len = lower_bound
-            .0
+            .1
             .to_string()
             .len()
-            .max(upper_bound.0.to_string().len());
+            .max(upper_bound.1.to_string().len());
         let xl = (lower_x..=upper_x)
             .step_by(5)
             .map(|l| format!("{l: >x_num_len$}").chars().collect::<Vec<_>>())
