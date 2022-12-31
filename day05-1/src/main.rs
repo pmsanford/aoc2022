@@ -1,6 +1,54 @@
 use anyhow::Result;
-use regex::Regex;
 use util::Input;
+
+use crate::parser::parse_move;
+
+mod parser {
+    use anyhow::{anyhow, Result};
+    use std::num::ParseIntError;
+
+    #[derive(Debug, Clone, Copy)]
+    pub struct Move {
+        pub count: usize,
+        pub from: usize,
+        pub to: usize,
+    }
+
+    use nom::{
+        bytes::complete::{tag, take_while1},
+        character::is_digit,
+        combinator::{all_consuming, map_res},
+        IResult,
+    };
+
+    fn from_dec(i: &str) -> Result<usize, ParseIntError> {
+        i.parse()
+    }
+
+    fn number(i: &str) -> IResult<&str, usize> {
+        map_res(
+            take_while1(|c: char| is_digit(c as u8) || c == '-'),
+            from_dec,
+        )(i)
+    }
+
+    fn mv(i: &str) -> IResult<&str, Move> {
+        let (i, _) = tag("move ")(i)?;
+        let (i, count) = number(i)?;
+        let (i, _) = tag(" from ")(i)?;
+        let (i, from) = number(i)?;
+        let (i, _) = tag(" to ")(i)?;
+        let (i, to) = number(i)?;
+
+        Ok((i, Move { count, from, to }))
+    }
+
+    pub fn parse_move(i: &str) -> Result<Move> {
+        let (_, mv) = all_consuming(mv)(i).map_err(|_| anyhow!("Couldn't parse move"))?;
+
+        Ok(mv)
+    }
+}
 
 fn print_stacks(stacks: &Vec<Vec<char>>) {
     let height = stacks.iter().map(|s| s.len()).max().unwrap();
@@ -53,15 +101,11 @@ fn main() -> Result<()> {
 
     for inst in lines.iter().skip(instructions_start) {
         println!("{inst}");
-        let re = Regex::new("move ([0-9]+) from ([0-9]+) to ([0-9]+)")?;
-        let c = re.captures(inst).unwrap();
-        let count = c.get(1).unwrap().as_str().parse::<usize>()?;
-        let from = c.get(2).unwrap().as_str().parse::<usize>()? - 1;
-        let to = c.get(3).unwrap().as_str().parse::<usize>()? - 1;
+        let mv = parse_move(inst)?;
 
-        for _ in 0..count {
-            let popped = stacks[from].pop().unwrap();
-            stacks[to].push(popped);
+        for _ in 0..mv.count {
+            let popped = stacks[mv.from - 1].pop().unwrap();
+            stacks[mv.to - 1].push(popped);
         }
 
         print_stacks(&stacks);
